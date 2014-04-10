@@ -4,6 +4,7 @@ import com.timwe.sg.apac.techtalk.tdd.AbstractTest;
 import com.timwe.sg.apac.techtalk.tdd.customer.Customer;
 import com.timwe.sg.apac.techtalk.tdd.customer.CustomerManager;
 import com.timwe.sg.apac.techtalk.tdd.customer.CustomerStatusEnum;
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -88,5 +89,33 @@ public class SubscriptionManagerImplTest extends AbstractTest {
         when(customer.getId()).thenReturn(null);
 
         $.create(subscription);
+    }
+
+    @Test
+    public void testGet() {
+        when(repository.get(anyLong())).thenReturn(subscription);
+        $.get(1L);
+
+        verify(repository).get(anyLong());
+    }
+
+    @Test
+    public void testGetWithNullId() {
+        expect.expect(SubscriptionException.class);
+        expect.expectMessage("Id is required");
+
+        $.get(null);
+    }
+
+    @Test
+    public void testGetInvalidSubscription() {
+        expect.expect(SubscriptionException.class);
+        expect.expectMessage("Invalid subscription id");
+
+        when(repository.get(anyLong())).thenReturn(null);
+
+        $.get(112L);
+
+        verify(repository).get(anyLong());
     }
 }

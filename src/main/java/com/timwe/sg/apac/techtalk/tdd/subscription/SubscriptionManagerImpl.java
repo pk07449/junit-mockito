@@ -40,7 +40,18 @@ public class SubscriptionManagerImpl implements SubscriptionManager {
 
     @Override
     public Subscription get(Long id) {
-        return null;
+
+        if (id == null) {
+            throw new SubscriptionException("Id is required");
+        }
+
+        Subscription subscription = repository.get(id);
+
+        if (subscription == null) {
+            throw new SubscriptionException("Invalid subscription id");
+        }
+
+        return subscription;
     }
 
     @Override
