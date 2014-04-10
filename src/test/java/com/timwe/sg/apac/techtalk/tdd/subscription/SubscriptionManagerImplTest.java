@@ -5,6 +5,7 @@ import com.timwe.sg.apac.techtalk.tdd.customer.Customer;
 import com.timwe.sg.apac.techtalk.tdd.customer.CustomerManager;
 import com.timwe.sg.apac.techtalk.tdd.customer.CustomerStatusEnum;
 import org.junit.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 
 import static org.mockito.Mockito.*;
@@ -14,6 +15,7 @@ import static org.mockito.Mockito.*;
  */
 public class SubscriptionManagerImplTest extends AbstractTest {
 
+    @InjectMocks
     SubscriptionManagerImpl $;
 
     @Mock
@@ -27,12 +29,6 @@ public class SubscriptionManagerImplTest extends AbstractTest {
 
     @Override
     public void setUp() {
-        super.setUp();
-
-        $ = new SubscriptionManagerImpl();
-        $.customerManager = customerManager;
-        $.repository = repository;
-
         when(subscription.getCustomer()).thenReturn(customer);
         when(customer.getId()).thenReturn(1L);
         when(customerManager.get(1L)).thenReturn(customer);

@@ -6,11 +6,12 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * @author Rashidi Zin
  */
-@RunWith(JUnit4.class)
+@RunWith(MockitoJUnitRunner.class)
 public abstract class AbstractTest {
 
     @Rule
@@ -18,6 +19,6 @@ public abstract class AbstractTest {
 
     @Before
     public void setUp() {
-        MockitoAnnotations.initMocks(this);
+
     }
 }
