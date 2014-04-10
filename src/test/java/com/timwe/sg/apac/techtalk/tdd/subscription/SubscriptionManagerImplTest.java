@@ -184,6 +184,11 @@ public class SubscriptionManagerImplTest extends AbstractTest {
         verify(repository).get(anyLong());
     }
 
+    @Test
+    public void testUpdateWithNull() {
+        Assert.assertNull($.update(null));
+    }
+
     private void updatePrerequisite() {
         final Long id = 1L;
 
