@@ -82,4 +82,15 @@ public class SubscriptionManagerImplTest extends AbstractTest {
 
         $.create(subscription);
     }
+
+    @Test
+    public void testCreateWithoutCustomerId() {
+        expect.expect(SubscriptionException.class);
+        expect.expectMessage("Customer id is required");
+
+        when(subscription.getCustomer()).thenReturn(customer);
+        when(customer.getId()).thenReturn(null);
+
+        $.create(subscription);
+    }
 }
