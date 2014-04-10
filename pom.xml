@@ -15,6 +15,13 @@
         <mockito-all.version>1.9.5</mockito-all.version>
     </properties>
 
+    <developers>
+        <developer>
+            <name>Rashidi Zin</name>
+            <url>http://rashidi.zin.my</url>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
