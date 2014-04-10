@@ -40,7 +40,6 @@ public class SubscriptionManagerImpl implements SubscriptionManager {
 
     @Override
     public Subscription get(Long id) {
-
         if (id == null) {
             throw new SubscriptionException("Id is required");
         }
@@ -56,7 +55,33 @@ public class SubscriptionManagerImpl implements SubscriptionManager {
 
     @Override
     public Subscription update(Subscription entity) {
-        return null;
+
+        if (entity == null) {
+            return null;
+        }
+
+        if (entity.getId() == null) {
+            throw new SubscriptionException("Subscription id is required");
+        }
+
+        if (entity.getStatus() == null) {
+            throw new SubscriptionException("New subscription status is required");
+        }
+
+        Subscription persisted = repository.get(entity);
+
+        if (SubscriptionStatusEnum.UNSUBSCRIBE.equals(persisted.getStatus())) {
+            throw new SubscriptionException("Unable to update un-subscribed subscription");
+        }
+
+        if (!isValidUpdate(persisted.getStatus(), entity.getStatus())) {
+            throw new SubscriptionException(
+                    String.format("Invalid status update from '%s' to '%s'", persisted.getStatus().toString(), entity.getStatus().toString())
+            );
+        }
+
+        repository.update(persisted.getId(), entity);
+        return repository.get(persisted.getId());
     }
 
     @Override
@@ -66,5 +91,16 @@ public class SubscriptionManagerImpl implements SubscriptionManager {
 
     private Subscription doGetByCustomer(Customer customer) {
         return repository.findByCustomer(customer);
+    }
+
+    private boolean isValidUpdate(SubscriptionStatusEnum currentStatus, SubscriptionStatusEnum updatedStatus) {
+
+        if (SubscriptionStatusEnum.ACTIVE.equals(updatedStatus)) {
+            return (SubscriptionStatusEnum.PENDING.equals(currentStatus) || SubscriptionStatusEnum.SUSPENDED.equals(currentStatus));
+        } else if (SubscriptionStatusEnum.SUSPENDED.equals(updatedStatus)) {
+            return SubscriptionStatusEnum.ACTIVE.equals(currentStatus);
+        }
+
+        return true;
     }
 }
