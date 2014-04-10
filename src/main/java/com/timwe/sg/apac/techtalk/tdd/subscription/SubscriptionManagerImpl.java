@@ -94,13 +94,10 @@ public class SubscriptionManagerImpl implements SubscriptionManager {
     }
 
     private boolean isValidUpdate(SubscriptionStatusEnum currentStatus, SubscriptionStatusEnum updatedStatus) {
-
-        if (SubscriptionStatusEnum.ACTIVE.equals(updatedStatus)) {
-            return (SubscriptionStatusEnum.PENDING.equals(currentStatus) || SubscriptionStatusEnum.SUSPENDED.equals(currentStatus));
-        } else if (SubscriptionStatusEnum.SUSPENDED.equals(updatedStatus)) {
-            return SubscriptionStatusEnum.ACTIVE.equals(currentStatus);
-        }
-
-        return true;
+            return (SubscriptionStatusEnum.ACTIVE.equals(updatedStatus) && (
+                    SubscriptionStatusEnum.PENDING.equals(currentStatus) || SubscriptionStatusEnum.SUSPENDED.equals(currentStatus)
+            ) ||
+                    (SubscriptionStatusEnum.SUSPENDED.equals(updatedStatus) && SubscriptionStatusEnum.ACTIVE.equals(currentStatus))
+            );
     }
 }
