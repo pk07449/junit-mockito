@@ -124,7 +124,8 @@ public class SubscriptionManagerImplTest extends AbstractTest {
     @Test
     public void testUpdate() {
         updatePrerequisite();
-        when(subscription.getStatus()).thenReturn(SubscriptionStatusEnum.PENDING);
+        when(persisted.getStatus()).thenReturn(SubscriptionStatusEnum.PENDING);
+        when(subscription.getStatus()).thenReturn(SubscriptionStatusEnum.ACTIVE);
 
         $.update(subscription);
 
