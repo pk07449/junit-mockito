@@ -130,6 +130,19 @@ public class SubscriptionManagerImplTest extends AbstractTest {
     }
 
     @Test
+    public void testUpdateSuspend() {
+        preTestUpdate();
+        when(persisted.getStatus()).thenReturn(SubscriptionStatusEnum.ACTIVE);
+        when(subscription.getStatus()).thenReturn(SubscriptionStatusEnum.SUSPENDED);
+
+        $.update(subscription);
+
+        verify(repository).get(1L);
+        verify(repository).get(subscription);
+        verify(repository).update(1L, subscription);
+    }
+
+    @Test
     public void testUpdateWithoutId() {
         expect.expect(SubscriptionException.class);
         expect.expectMessage("Subscription id is required");
