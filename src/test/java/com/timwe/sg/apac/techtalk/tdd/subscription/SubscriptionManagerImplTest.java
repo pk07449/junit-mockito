@@ -30,16 +30,9 @@ public class SubscriptionManagerImplTest extends AbstractTest {
     @Mock
     Customer customer;
 
-    @Override
-    public void setUp() {
-        when(subscription.getCustomer()).thenReturn(customer);
-        when(customer.getId()).thenReturn(1L);
-        when(customerManager.get(1L)).thenReturn(customer);
-        when(customer.getStatus()).thenReturn(CustomerStatusEnum.ACTIVE);
-    }
-
     @Test
     public void testCreate() {
+        preTestCreate();
         when(repository.findByCustomer(customer)).thenReturn(null);
         when(repository.create(subscription)).thenReturn(1L);
 
@@ -57,6 +50,7 @@ public class SubscriptionManagerImplTest extends AbstractTest {
         expect.expect(SubscriptionException.class);
         expect.expectMessage("User has to be ACTIVE");
 
+        preTestCreate();
         when(customer.getStatus()).thenReturn(CustomerStatusEnum.INACTIVE);
 
         $.create(subscription);
@@ -76,6 +70,7 @@ public class SubscriptionManagerImplTest extends AbstractTest {
         expect.expect(SubscriptionException.class);
         expect.expectMessage("Customer is already an active subscriber");
 
+        preTestCreate();
         when(repository.findByCustomer(customer)).thenReturn(subscription);
         when(subscription.getStatus()).thenReturn(SubscriptionStatusEnum.ACTIVE);
 
@@ -123,7 +118,7 @@ public class SubscriptionManagerImplTest extends AbstractTest {
 
     @Test
     public void testUpdate() {
-        updatePrerequisite();
+        preTestUpdate();
         when(persisted.getStatus()).thenReturn(SubscriptionStatusEnum.PENDING);
         when(subscription.getStatus()).thenReturn(SubscriptionStatusEnum.ACTIVE);
 
@@ -148,7 +143,7 @@ public class SubscriptionManagerImplTest extends AbstractTest {
         expect.expect(SubscriptionException.class);
         expect.expectMessage("Unable to update un-subscribed subscription");
 
-        updatePrerequisite();
+        preTestUpdate();
         when(subscription.getStatus()).thenReturn(SubscriptionStatusEnum.ACTIVE);
         when(persisted.getStatus()).thenReturn(SubscriptionStatusEnum.UNSUBSCRIBE);
 
@@ -176,7 +171,7 @@ public class SubscriptionManagerImplTest extends AbstractTest {
                 )
         );
 
-        updatePrerequisite();
+        preTestUpdate();
         when(persisted.getStatus()).thenReturn(SubscriptionStatusEnum.PENDING);
         when(subscription.getStatus()).thenReturn(SubscriptionStatusEnum.SUSPENDED);
 
@@ -190,7 +185,14 @@ public class SubscriptionManagerImplTest extends AbstractTest {
         Assert.assertNull($.update(null));
     }
 
-    private void updatePrerequisite() {
+    private void preTestCreate() {
+        when(subscription.getCustomer()).thenReturn(customer);
+        when(customer.getId()).thenReturn(1L);
+        when(customerManager.get(1L)).thenReturn(customer);
+        when(customer.getStatus()).thenReturn(CustomerStatusEnum.ACTIVE);
+    }
+
+    private void preTestUpdate() {
         final Long id = 1L;
 
         when(subscription.getId()).thenReturn(id);
