@@ -11,6 +11,8 @@ public interface EntityRepository<E extends Entity, ID extends Serializable> {
 
     E get(ID id);
 
+    E get(E entity);
+
     E update(ID id, E entity);
 
     void delete(ID id);
