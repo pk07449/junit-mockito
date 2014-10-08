@@ -12,7 +12,7 @@
     <properties>
         <java.version>1.6</java.version>
         <junit.version>4.11</junit.version>
-        <mockito-all.version>1.9.5</mockito-all.version>
+        <mockito-all.version>1.10.4</mockito-all.version>
     </properties>
 
     <developers>
@@ -83,4 +83,11 @@
             </plugins>
         </pluginManagement>
     </build>
+
+    <repositories>
+        <repository>
+            <id>spring-releases</id>
+            <url>http://repo.springsource.org/libs-release-remote/</url>
+        </repository>
+    </repositories>
 </project>
