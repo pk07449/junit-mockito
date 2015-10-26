@@ -10,9 +10,9 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <java.version>1.6</java.version>
-        <junit.version>4.11</junit.version>
-        <mockito-all.version>1.10.4</mockito-all.version>
+        <java.version>1.8</java.version>
+        <junit.version>4.12</junit.version>
+        <mockito-all.version>1.10.19</mockito-all.version>
     </properties>
 
     <developers>
